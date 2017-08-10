@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -50,6 +51,19 @@ func main() {
 			kickConfig := tgbotapi.KickChatMemberConfig{
 				ChatMemberConfig: config,
 			}
+
+			kickedUser := message.From
+			kickMessage := fmt.Sprintf("Баним %s %s (@%s)", kickedUser.FirstName, kickedUser.LastName, kickedUser.UserName)
+
+			msg := tgbotapi.NewMessage(update.Message.Chat.ID, kickMessage)
+
+			messageToDelete := tgbotapi.DeleteMessageConfig{
+				ChatID:    message.Chat.ID,
+				MessageID: message.MessageID,
+			}
+
+			bot.DeleteMessage(messageToDelete)
+			bot.Send(msg)
 			bot.KickChatMember(kickConfig)
 		}
 
