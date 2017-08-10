@@ -47,7 +47,10 @@ func main() {
 				ChatID: message.Chat.ID,
 				UserID: message.From.ID,
 			}
-			bot.KickChatMember(config)
+			kickConfig := tgbotapi.KickChatMemberConfig{
+				ChatMemberConfig: config,
+			}
+			bot.KickChatMember(kickConfig)
 		}
 
 		replies := map[string]string{
