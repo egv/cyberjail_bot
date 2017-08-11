@@ -34,6 +34,7 @@ func main() {
 	updates, err := bot.GetUpdatesChan(u)
 
 	for update := range updates {
+
 		if update.Message == nil {
 			continue
 		}
@@ -65,39 +66,6 @@ func main() {
 			bot.DeleteMessage(messageToDelete)
 			bot.Send(msg)
 			bot.KickChatMember(kickConfig)
-		}
-
-		replies := map[string]string{
-			"((":     "Чо ты такой грустный?",
-			"гук":    "В академии наук заседает чёртов гук. Джонни, они научились прятаться даже там!",
-			"shrug":  "¯\\_(ツ)_/¯",
-			"дорого": "Твоя нищета омерзительна",
-			"фашист": "По поводу взаимоотношения фашизма и расизма в науке существуют разные мнения. Сторонники одной точки зрения полагают, что идея биологического расизма была прерогативой нацистского режима, тогда как в фашизме упор делается на нацию, а не расу. Последователи этой теории в целом склонны выделять нацизм как особый исторический феномен, не считая его одной из разновидностей фашизма",
-		}
-
-		for trigger, reply := range replies {
-			if strings.Contains(messageText, trigger) {
-				msg := tgbotapi.NewMessage(update.Message.Chat.ID, reply)
-				msg.ReplyToMessageID = update.Message.MessageID
-
-				bot.Send(msg)
-			}
-		}
-
-		stickerReplies := map[string]string{
-			"гитлер": "CAADAgADuQMAApj8Lgej7SMzfLsfmwI",
-			"пиздец": "CAADAQADpQMAAjbzwAuEVbJbdhMgRAI",
-			"хахаха": "CAADAgADCwEAAvR7GQABuArOzKHFjusC",
-			"хммм":   "CAADAgADiQMAAjbsGwVkQ0mbOVmPTQI",
-		}
-
-		for trigger, reply := range stickerReplies {
-			if strings.Contains(messageText, trigger) {
-				msg := tgbotapi.NewStickerShare(update.Message.Chat.ID, reply)
-				msg.ReplyToMessageID = update.Message.MessageID
-
-				bot.Send(msg)
-			}
 		}
 	}
 }
